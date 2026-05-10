@@ -6,13 +6,8 @@
 <title>Direct Crete Villas – Rent Direct from Owners | No Airbnb Fees</title>
 <meta name="description" content="Rent luxury villas in Crete directly from owners. No Airbnb commission. Best prices in Heraklion, Chania, Rethymno, Lasithi. Private pools, sea views, families welcome.">
 <meta name="keywords" content="villa crete rent, villa heraklion, villa chania, villa rethymno, crete holiday villa, rent villa crete direct owner, no airbnb fees crete villa">
-<meta property="og:title" content="Direct Crete Villas – Book Direct, Save More">
-<meta property="og:description" content="100+ handpicked villas across Crete. Book directly with owners and save up to 20%.">
-<meta property="og:type" content="website">
 <link rel="canonical" href="https://www.directcretevillas.com">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"LodgingBusiness","name":"Direct Crete Villas","description":"Luxury villa rentals in Crete. Book direct from owners.","url":"https://www.directcretevillas.com","telephone":"+306999009499","email":"plataniasguide@gmail.com","address":{"@type":"PostalAddress","addressCountry":"GR","addressRegion":"Crete"}}
-</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LodgingBusiness","name":"Direct Crete Villas","description":"Luxury villa rentals in Crete. Book direct from owners.","url":"https://www.directcretevillas.com","telephone":"+306999009499","email":"plataniasguide@gmail.com","address":{"@type":"PostalAddress","addressCountry":"GR","addressRegion":"Crete"}}</script>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -54,7 +49,7 @@ nav{position:sticky;top:0;z-index:200;background:var(--navy);padding:0 2rem;heig
 .pill{padding:6px 18px;border-radius:20px;border:1px solid var(--border);font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;background:white;color:var(--muted);transition:all .2s}
 .pill.active,.pill:hover{background:var(--navy);color:white;border-color:var(--navy)}
 .villa-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:28px}
-.vcard{background:white;border-radius:14px;overflow:hidden;border:1px solid rgba(0,0,0,0.07);transition:transform .25s,box-shadow .25s;cursor:pointer}
+.vcard{background:white;border-radius:14px;overflow:hidden;border:1px solid rgba(0,0,0,0.07);transition:transform .25s,box-shadow .25s}
 .vcard:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(13,43,69,0.13)}
 .vcard-img{height:220px;background:var(--sand2) center/cover no-repeat;position:relative}
 .vcard-badge{position:absolute;top:14px;left:14px;background:var(--navy);color:white;font-size:11px;letter-spacing:1px;text-transform:uppercase;padding:4px 11px;border-radius:4px}
@@ -62,11 +57,14 @@ nav{position:sticky;top:0;z-index:200;background:var(--navy);padding:0 2rem;heig
 .vcard-region{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--terra);margin-bottom:5px;font-weight:500}
 .vcard-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;margin-bottom:8px}
 .vcard-meta{display:flex;gap:14px;font-size:13px;color:var(--muted);margin-bottom:14px;flex-wrap:wrap}
-.vcard-footer{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--sand2);padding-top:14px}
+.vcard-footer{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--sand2);padding-top:14px;gap:8px;flex-wrap:wrap}
 .vcard-price{font-size:13px;color:var(--muted)}
-.vcard-price strong{font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--navy);font-weight:600;margin-right:2px}
-.btn-inq{background:var(--navy);color:white;border:none;padding:9px 20px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.vcard-price strong{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--navy);font-weight:600;margin-right:2px}
+.btn-group{display:flex;gap:8px;flex-wrap:wrap}
+.btn-inq{background:var(--navy);color:white;border:none;padding:8px 16px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:background .2s}
 .btn-inq:hover{background:var(--navy2)}
+.btn-airbnb{background:#FF5A5F;color:white;border:none;padding:8px 14px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:background .2s;display:flex;align-items:center;gap:5px;text-decoration:none}
+.btn-airbnb:hover{background:#e04e53}
 .btn-view-all{display:block;margin:2.5rem auto 0;background:transparent;border:1.5px solid var(--navy);color:var(--navy);padding:12px 36px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;transition:all .2s}
 .btn-view-all:hover{background:var(--navy);color:white}
 .why-section{background:var(--sand);padding:5rem 2rem}
@@ -111,10 +109,9 @@ footer ul li a{font-size:13px;color:rgba(255,255,255,0.5);transition:color .2s;f
 footer ul li a:hover{color:var(--gold-light)}
 .footer-bottom{border-top:1px solid rgba(255,255,255,0.08);padding-top:1.2rem;display:flex;justify-content:space-between;font-size:12px}
 .loading-state{text-align:center;padding:4rem;color:var(--muted)}
-.loading-state .spinner{width:40px;height:40px;border:3px solid var(--sand2);border-top-color:var(--navy);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 1rem}
+.spinner{width:40px;height:40px;border:3px solid var(--sand2);border-top-color:var(--navy);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 1rem}
 @keyframes spin{to{transform:rotate(360deg)}}
-.empty-state{text-align:center;padding:4rem;color:var(--muted)}
-@media(max-width:768px){.why-inner{grid-template-columns:1fr}.footer-inner{grid-template-columns:1fr}.frow{grid-template-columns:1fr}.nav-links{display:none}}
+@media(max-width:768px){.why-inner{grid-template-columns:1fr}.footer-inner{grid-template-columns:1fr}.frow{grid-template-columns:1fr}.nav-links{display:none}.hero-stats{gap:1.5rem}}
 </style>
 </head>
 <body>
@@ -146,21 +143,15 @@ footer ul li a:hover{color:var(--gold-light)}
         <label>Region</label>
         <select id="filter-region" onchange="filterVillas()">
           <option value="">All Regions</option>
-          <option>Heraklion</option>
-          <option>Chania</option>
-          <option>Rethymno</option>
-          <option>Lasithi</option>
+          <option>Heraklion</option><option>Chania</option><option>Rethymno</option><option>Lasithi</option>
         </select>
       </div>
       <div class="sg">
         <label>Guests</label>
         <select id="filter-guests" onchange="filterVillas()">
           <option value="">Any</option>
-          <option value="2">2+</option>
-          <option value="4">4+</option>
-          <option value="6">6+</option>
-          <option value="8">8+</option>
-          <option value="10">10+</option>
+          <option value="2">2+</option><option value="4">4+</option>
+          <option value="6">6+</option><option value="8">8+</option><option value="10">10+</option>
         </select>
       </div>
       <div class="sg">
@@ -183,7 +174,7 @@ footer ul li a:hover{color:var(--gold-light)}
   <div class="section-head">
     <div>
       <div class="section-title">Our <em>Villas</em></div>
-      <div class="section-sub" id="villa-count-label">Loading villas from Google Sheets…</div>
+      <div class="section-sub" id="villa-count-label">Loading villas…</div>
     </div>
     <div class="filter-row">
       <button class="pill active" onclick="setPill(this,'')">All</button>
@@ -193,9 +184,7 @@ footer ul li a:hover{color:var(--gold-light)}
       <button class="pill" onclick="setPill(this,'Lasithi')">Lasithi</button>
     </div>
   </div>
-  <div id="villa-grid">
-    <div class="loading-state"><div class="spinner"></div><p>Loading villas…</p></div>
-  </div>
+  <div id="villa-grid"><div class="loading-state"><div class="spinner"></div><p>Loading villas…</p></div></div>
   <button class="btn-view-all" id="btn-view-all" style="display:none" onclick="showAll()">View All Villas →</button>
 </section>
  
@@ -294,135 +283,121 @@ footer ul li a:hover{color:var(--gold-light)}
 </footer>
  
 <script>
-// ── GOOGLE SHEETS CSV URL ──
 const SHEET_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQsles0DkZbwBc8-DU8cosNJU-1ycyZ29s7fhdaK8oCFeIi4eMpuJc2QmRiZ3xEeTGiIguzHAHGajQA/pub?gid=0&single=true&output=csv';
  
 let allVillas = [];
-let visibleCount = 6;
 let activeRegion = '';
 let showingAll = false;
 let currentVilla = '';
  
-// ── PARSE CSV ──
 function parseCSV(text) {
-  const lines = text.trim().split('\n');
-  const headers = lines[0].split(',').map(h => h.trim().replace(/"/g,'').toLowerCase());
-  return lines.slice(1).map((line, i) => {
-    const vals = [];
-    let cur = '', inQ = false;
-    for (let c of line) {
-      if (c === '"') inQ = !inQ;
-      else if (c === ',' && !inQ) { vals.push(cur.trim()); cur = ''; }
-      else cur += c;
+  var lines = text.trim().split('\n');
+  var headers = lines[0].split(',').map(function(h){ return h.trim().replace(/"/g,'').toLowerCase(); });
+  return lines.slice(1).map(function(line, i) {
+    var vals = [], cur = '', inQ = false;
+    for (var c of line) {
+      if (c==='"') inQ=!inQ;
+      else if (c===','&&!inQ){ vals.push(cur.trim()); cur=''; }
+      else cur+=c;
     }
     vals.push(cur.trim());
-    const obj = { id: i + 1 };
-    headers.forEach((h, idx) => { obj[h] = (vals[idx] || '').replace(/"/g, '').trim(); });
-    obj.persons = parseInt(obj.persons) || 0;
-    obj.price = parseInt(obj.price) || 0;
-    obj.pool = obj.pool === 'TRUE' || obj.pool === 'true' || obj.pool === '1' || obj.pool === 'yes';
-    obj.seaview = obj.seaview === 'TRUE' || obj.seaview === 'true' || obj.seaview === '1' || obj.seaview === 'yes';
-    obj.garden = obj.garden === 'TRUE' || obj.garden === 'true' || obj.garden === '1' || obj.garden === 'yes';
+    var obj = {id: i+1};
+    headers.forEach(function(h,idx){ obj[h]=(vals[idx]||'').replace(/"/g,'').trim(); });
+    obj.persons = parseInt(obj.persons)||0;
+    obj.price = parseInt(obj.price)||0;
     return obj;
-  }).filter(v => v.name);
+  }).filter(function(v){ return v.name; });
 }
  
-// ── LOAD FROM GOOGLE SHEETS ──
 async function loadVillas() {
   try {
-    const res = await fetch(SHEET_CSV + '&t=' + Date.now());
-    const text = await res.text();
+    var res = await fetch(SHEET_CSV + '&t=' + Date.now());
+    var text = await res.text();
     allVillas = parseCSV(text);
     document.getElementById('cnt-villas').textContent = allVillas.length;
     renderVillas();
-  } catch (e) {
-    document.getElementById('villa-grid').innerHTML = '<div class="empty-state"><p style="font-size:18px">⚠️</p><p>Could not load villas. Please check your Google Sheet is published.</p></div>';
-    document.getElementById('villa-count-label').textContent = 'Error loading villas';
+  } catch(e) {
+    document.getElementById('villa-grid').innerHTML = '<div style="text-align:center;padding:4rem;color:var(--muted)">⚠️ Could not load villas. Please try again.</div>';
   }
 }
  
-// ── RENDER ──
 function renderVillas() {
-  let filtered = allVillas.filter(v => {
-    if (activeRegion && v.region !== activeRegion) return false;
-    const g = parseInt(document.getElementById('filter-guests').value) || 0;
-    if (g && v.persons < g) return false;
+  var gMin = parseInt(document.getElementById('filter-guests').value)||0;
+  var filtered = allVillas.filter(function(v){
+    if(activeRegion && v.region !== activeRegion) return false;
+    if(gMin && v.persons < gMin) return false;
     return true;
   });
  
   document.getElementById('villa-count-label').textContent = filtered.length + ' villas available for direct booking';
+  var shown = showingAll ? filtered : filtered.slice(0,6);
+  var btn = document.getElementById('btn-view-all');
+  btn.style.display = filtered.length > 6 && !showingAll ? 'block' : 'none';
  
-  const shown = showingAll ? filtered : filtered.slice(0, visibleCount);
-  const btn = document.getElementById('btn-view-all');
-  btn.style.display = filtered.length > visibleCount && !showingAll ? 'block' : 'none';
- 
-  if (filtered.length === 0) {
-    document.getElementById('villa-grid').innerHTML = '<div class="empty-state"><p>No villas found for this filter.</p></div>';
+  if(!filtered.length){
+    document.getElementById('villa-grid').innerHTML = '<div style="text-align:center;padding:4rem;color:var(--muted)">No villas found for this filter.</div>';
     return;
   }
  
-  document.getElementById('villa-grid').innerHTML = shown.map(v => `
-    <div class="vcard" onclick="openModal('${v.name.replace(/'/g,"\\'")}')">
-      <div class="vcard-img" style="background-image:url('${v.photo || 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&q=70'}')">
-        <span class="vcard-badge">${v.region}</span>
-      </div>
-      <div class="vcard-body">
-        <div class="vcard-region">${v.region}${v.area ? ' · ' + v.area : ''}</div>
-        <div class="vcard-name">${v.name}</div>
-        <div class="vcard-meta">
-          <span>👥 ${v.persons} persons</span>
-          ${v.pool ? '<span>🏊 Pool</span>' : ''}
-          ${v.seaview ? '<span>🌊 Sea view</span>' : ''}
-          ${v.garden ? '<span>🌿 Garden</span>' : ''}
-        </div>
-        <div class="vcard-footer">
-          <div class="vcard-price">${v.price ? '<strong>€' + v.price + '</strong>/night' : '<strong>On request</strong>'}</div>
-          <button class="btn-inq" onclick="event.stopPropagation();openModal('${v.name.replace(/'/g,"\\'")}')">Inquire Now</button>
-        </div>
-      </div>
-    </div>
-  `).join('');
+  document.getElementById('villa-grid').innerHTML = shown.map(function(v){
+    var airbnbBtn = v.airbnb_link
+      ? '<a href="'+v.airbnb_link+'" target="_blank" class="btn-airbnb">🏠 View Photos</a>'
+      : '';
+    return '<div class="vcard">'+
+      '<div class="vcard-img" style="background-image:url(\''+(v.photo||'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&q=70')+'\')">'+
+        '<span class="vcard-badge">'+v.region+'</span>'+
+      '</div>'+
+      '<div class="vcard-body">'+
+        '<div class="vcard-region">'+v.region+(v.area?' · '+v.area:'')+'</div>'+
+        '<div class="vcard-name">'+v.name+'</div>'+
+        '<div class="vcard-meta">'+
+          '<span>👥 '+v.persons+' persons</span>'+
+          (v.pool==='TRUE'?'<span>🏊 Pool</span>':'')+
+          (v.seaview==='TRUE'?'<span>🌊 Sea view</span>':'')+
+          (v.garden==='TRUE'?'<span>🌿 Garden</span>':'')+
+        '</div>'+
+        '<div class="vcard-footer">'+
+          '<div class="vcard-price">'+(v.price?'<strong>€'+v.price+'</strong>/night':'<strong>On request</strong>')+'</div>'+
+          '<div class="btn-group">'+
+            airbnbBtn+
+            '<button class="btn-inq" onclick="openModal(\''+v.name.replace(/'/g,"\\'")+'\')" >Inquire</button>'+
+          '</div>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
+  }).join('');
 }
  
-function filterVillas() { showingAll = false; renderVillas(); }
-function setPill(el, region) {
-  activeRegion = region;
-  document.getElementById('filter-region').value = region;
-  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+function filterVillas(){ showingAll=false; renderVillas(); }
+function setPill(el,region){
+  activeRegion=region;
+  document.getElementById('filter-region').value=region;
+  document.querySelectorAll('.pill').forEach(function(p){ p.classList.remove('active'); });
   el.classList.add('active');
-  showingAll = false;
+  showingAll=false;
   renderVillas();
 }
-function showAll() { showingAll = true; renderVillas(); }
+function showAll(){ showingAll=true; renderVillas(); }
  
-function openModal(villa) {
-  currentVilla = villa;
+function openModal(villa){
+  currentVilla=villa;
   document.getElementById('modal').classList.add('open');
-  document.getElementById('modal-villa-lbl').textContent = villa === 'any' ? 'Send your inquiry — we reply within 24 hours' : 'Inquiry for: ' + villa;
-  document.getElementById('modal-form-wrap').style.display = '';
-  document.getElementById('modal-success').style.display = 'none';
+  document.getElementById('modal-villa-lbl').textContent = villa==='any'?'Send your inquiry — we reply within 24 hours':'Inquiry for: '+villa;
+  document.getElementById('modal-form-wrap').style.display='';
+  document.getElementById('modal-success').style.display='none';
 }
-function closeModal(e) {
-  if (!e || e.target === document.getElementById('modal')) document.getElementById('modal').classList.remove('open');
+function closeModal(e){
+  if(!e||e.target===document.getElementById('modal')) document.getElementById('modal').classList.remove('open');
 }
-function submitInquiry() {
-  const email = document.getElementById('m-email').value;
-  if (!email) { alert('Please enter your email address.'); return; }
-  document.getElementById('modal-form-wrap').style.display = 'none';
-  document.getElementById('modal-success').style.display = 'block';
-  document.getElementById('success-email').textContent = email;
-  const subject = encodeURIComponent('Villa Inquiry: ' + currentVilla);
-  const body = encodeURIComponent(
-    'Villa: ' + currentVilla +
-    '\nName: ' + document.getElementById('m-fname').value + ' ' + document.getElementById('m-lname').value +
-    '\nEmail: ' + email +
-    '\nPhone: ' + document.getElementById('m-phone').value +
-    '\nCheck-in: ' + document.getElementById('m-checkin').value +
-    '\nCheck-out: ' + document.getElementById('m-checkout').value +
-    '\nGuests: ' + document.getElementById('m-guests').value +
-    '\nMessage: ' + document.getElementById('m-msg').value
-  );
-  window.location.href = 'mailto:plataniasguide@gmail.com?subject=' + subject + '&body=' + body;
+function submitInquiry(){
+  var email=document.getElementById('m-email').value;
+  if(!email){ alert('Please enter your email.'); return; }
+  document.getElementById('modal-form-wrap').style.display='none';
+  document.getElementById('modal-success').style.display='block';
+  document.getElementById('success-email').textContent=email;
+  var subject=encodeURIComponent('Villa Inquiry: '+currentVilla);
+  var body=encodeURIComponent('Villa: '+currentVilla+'\nName: '+document.getElementById('m-fname').value+' '+document.getElementById('m-lname').value+'\nEmail: '+email+'\nPhone: '+document.getElementById('m-phone').value+'\nCheck-in: '+document.getElementById('m-checkin').value+'\nCheck-out: '+document.getElementById('m-checkout').value+'\nGuests: '+document.getElementById('m-guests').value+'\nMessage: '+document.getElementById('m-msg').value);
+  window.location.href='mailto:plataniasguide@gmail.com?subject='+subject+'&body='+body;
 }
  
 loadVillas();
