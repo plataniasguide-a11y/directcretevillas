@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel – DirectCreteVillas</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#0D2B45;--navy2:#1A4A6E;--gold:#C9974A;
+  --sand:#F7F2E8;--white:#FEFCF8;--text:#1A1209;
+  --muted:#7A6E60;--border:#E8E0D0;--danger:#B83232;
+  --success:#2E7D52;--radius:8px;
+}
+body{font-family:'DM Sans',sans-serif;background:#F0EDE6;color:var(--text);font-size:14px}
+
+/* LOGIN */
+#login-screen{position:fixed;inset:0;background:var(--navy);display:flex;align-items:center;justify-content:center;z-index:9999}
+.login-box{background:white;border-radius:16px;padding:3rem;width:100%;max-width:380px;text-align:center}
+.login-logo{font-size:22px;font-weight:500;margin-bottom:4px;color:var(--navy)}
+.login-logo span{color:var(--gold)}
+.login-sub{font-size:13px;color:var(--muted);margin-bottom:2rem}
+.login-box input{width:100%;padding:11px 16px;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:14px;margin-bottom:12px;outline:none}
+.login-box input:focus{border-color:var(--navy2)}
+.login-btn{width:100%;background:var(--navy);color:white;border:none;padding:12px;border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer}
+.login-error{color:var(--danger);font-size:13px;margin-top:8px;display:none}
+
+/* LAYOUT */
+#app{display:none;min-height:100vh}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:var(--navy);padding:1.5rem 1rem;display:flex;flex-direction:column}
+.s-logo{font-size:16px;font-weight:500;color:white;padding:0 8px;margin-bottom:2rem}
+.s-logo span{color:var(--gold)}
+.s-logo small{display:block;font-size:10px;color:rgba(255,255,255,0.4);margin-top:2px;font-weight:300;letter-spacing:0.5px}
+.s-nav{flex:1}
+.s-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:6px;color:rgba(255,255,255,0.65);font-size:13px;cursor:pointer;transition:all .2s;margin-bottom:2px}
+.s-item:hover,.s-item.active{background:rgba(255,255,255,0.12);color:white}
+.s-item svg{flex-shrink:0;opacity:0.7}
+.s-item.active svg{opacity:1}
+.s-section{font-size:10px;letter-spacing:1.5px;color:rgba(255,255,255,0.3);padding:12px 12px 6px;text-transform:uppercase}
+.s-bottom{border-top:1px solid rgba(255,255,255,0.1);padding-top:1rem}
+.s-logout{display:flex;align-items:center;gap:8px;padding:8px 12px;color:rgba(255,255,255,0.5);font-size:13px;cursor:pointer;border-radius:6px;transition:all .2s}
+.s-logout:hover{color:white;background:rgba(255,255,255,0.08)}
+
+.main{margin-left:220px;padding:2rem;min-height:100vh}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem}
+.topbar h1{font-size:20px;font-weight:500}
+.topbar-right{display:flex;align-items:center;gap:12px}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:2rem}
+.stat-card{background:white;border-radius:var(--radius);padding:1.25rem;border:1px solid var(--border)}
+.stat-card .sc-label{font-size:12px;color:var(--muted);margin-bottom:6px;letter-spacing:0.3px}
+.stat-card .sc-num{font-size:28px;font-weight:500;color:var(--navy)}
+.stat-card .sc-sub{font-size:12px;color:var(--muted);margin-top:4px}
+
+/* PANEL TABS */
+.panel{background:white;border-radius:var(--radius);border:1px solid var(--border);overflow:hidden}
+.panel-header{display:flex;justify-content:space-between;align-items:center;padding:1.2rem 1.5rem;border-bottom:1px solid var(--border)}
+.panel-title{font-size:15px;font-weight:500}
+.btn{padding:8px 18px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;border:none;transition:all .2s}
+.btn-primary{background:var(--navy);color:white}
+.btn-primary:hover{background:var(--navy2)}
+.btn-danger{background:var(--danger);color:white}
+.btn-danger:hover{background:#9C2929}
+.btn-ghost{background:transparent;color:var(--navy);border:1px solid var(--border)}
+.btn-ghost:hover{border-color:var(--navy);background:var(--sand)}
+.btn-success{background:var(--success);color:white}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:10px 16px;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);background:#F7F5F0;border-bottom:1px solid var(--border);font-weight:400}
+td{padding:14px 16px;border-bottom:1px solid #F0EDE6;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#FAFAF7}
+.villa-thumb{width:52px;height:40px;border-radius:4px;object-fit:cover;background:var(--sand)}
+.badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:500}
+.badge-h{background:#DCEDF7;color:#1A4A6E}
+.badge-ch{background:#F5E8E0;color:#8B4513}
+.badge-r{background:#E0F0E8;color:#2E7D52}
+.badge-l{background:#F0E8F5;color:#6B3A8B}
+.action-btns{display:flex;gap:6px}
+.btn-sm{padding:5px 12px;font-size:12px;border-radius:4px}
+.search-input{padding:8px 14px;border:1px solid var(--border);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:13px;width:240px;outline:none}
+.search-input:focus{border-color:var(--navy2)}
+
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:500;align-items:flex-start;justify-content:center;padding:2rem;overflow-y:auto}
+.modal-bg.open{display:flex}
+.modal{background:white;border-radius:14px;padding:2rem;width:100%;max-width:640px;position:relative;margin:auto}
+.modal h3{font-size:18px;font-weight:500;margin-bottom:1.5rem}
+.modal-close{position:absolute;top:14px;right:16px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.fg{margin-bottom:0}
+.fg label{display:block;font-size:11px;color:var(--muted);margin-bottom:5px;letter-spacing:0.3px}
+.fg input,.fg select,.fg textarea{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);outline:none;transition:border-color .2s}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--navy2)}
+.fg textarea{height:80px;resize:vertical}
+.fg.full{grid-column:1/-1}
+.checkboxes{display:flex;gap:20px;margin-top:6px}
+.checkboxes label{display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer}
+.modal-footer{display:flex;justify-content:flex-end;gap:10px;margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border)}
+
+/* PAGE switching */
+.page{display:none}
+.page.active{display:block}
+
+/* INQUIRIES */
+.inq-card{background:white;border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin-bottom:12px}
+.inq-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.inq-name{font-weight:500;font-size:15px}
+.inq-date{font-size:12px;color:var(--muted)}
+.inq-villa{font-size:13px;color:var(--navy2);margin-bottom:6px}
+.inq-meta{display:flex;gap:16px;font-size:13px;color:var(--muted);margin-bottom:8px}
+.inq-msg{font-size:13px;color:var(--muted);font-style:italic;padding:8px 12px;background:var(--sand);border-radius:6px}
+.inq-actions{display:flex;gap:8px;margin-top:12px}
+
+/* EMPTY */
+.empty{text-align:center;padding:4rem 2rem;color:var(--muted)}
+.empty svg{margin:0 auto 1rem;opacity:0.3}
+.empty p{font-size:15px;margin-bottom:4px}
+.empty small{font-size:13px}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:white;padding:12px 20px;border-radius:8px;font-size:14px;z-index:9000;transform:translateY(100px);opacity:0;transition:all .3s}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{background:var(--success)}
+.toast.error{background:var(--danger)}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">Direct<span>Crete</span>Villas</div>
+    <div class="login-sub">Admin Panel — Owners Only</div>
+    <input type="password" id="pwd-input" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">Login →</button>
+    <div class="login-error" id="login-error">Wrong password. Try again.</div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="s-logo">DirectCrete<span>Villas</span><small>Admin Panel v1.0</small></div>
+    <div class="s-nav">
+      <div class="s-section">Main</div>
+      <div class="s-item active" onclick="showPage('dashboard',this)">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </div>
+      <div class="s-item" onclick="showPage('villas',this)">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Manage Villas
+      </div>
+      <div class="s-item" onclick="showPage('inquiries',this)">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        Inquiries
+        <span id="inq-badge" style="margin-left:auto;background:#B83232;color:white;font-size:10px;padding:2px 7px;border-radius:10px;display:none">0</span>
+      </div>
+      <div class="s-section">Site</div>
+      <div class="s-item" onclick="window.open('../index.html','_blank')">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        View Public Site
+      </div>
+    </div>
+    <div class="s-bottom">
+      <div class="s-logout" onclick="doLogout()">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Logout
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- DASHBOARD -->
+    <div class="page active" id="page-dashboard">
+      <div class="topbar">
+        <h1>👋 Welcome back, Panos</h1>
+        <div class="topbar-right">
+          <span style="font-size:13px;color:var(--muted)" id="current-date"></span>
+        </div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="sc-label">Total Villas</div>
+          <div class="sc-num" id="stat-total">0</div>
+          <div class="sc-sub">Listed on site</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-label">Inquiries</div>
+          <div class="sc-num" id="stat-inq">0</div>
+          <div class="sc-sub">Total received</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-label">Regions</div>
+          <div class="sc-num">4</div>
+          <div class="sc-sub">Heraklion · Chania · Rethymno · Lasithi</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-label">Contact</div>
+          <div class="sc-num" style="font-size:18px">📞</div>
+          <div class="sc-sub"><a href="tel:+306999009499" style="color:var(--navy)">+30 699 900 9499</a></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">Quick Actions</div>
+        </div>
+        <div style="padding:1.5rem;display:flex;gap:12px;flex-wrap:wrap">
+          <button class="btn btn-primary" onclick="showPage('villas',document.querySelectorAll('.s-item')[1]);openAddModal()">+ Add New Villa</button>
+          <button class="btn btn-ghost" onclick="showPage('inquiries',document.querySelectorAll('.s-item')[2])">View Inquiries</button>
+          <button class="btn btn-ghost" onclick="exportVillas()">📥 Export Villas JSON</button>
+          <a href="mailto:plataniasguide@gmail.com" class="btn btn-ghost" style="text-decoration:none">📧 Check Email</a>
+        </div>
+      </div>
+
+      <div style="margin-top:1.5rem" class="panel">
+        <div class="panel-header"><div class="panel-title">Your Villas by Region</div></div>
+        <div style="padding:1.5rem;display:grid;grid-template-columns:repeat(4,1fr);gap:12px" id="region-breakdown"></div>
+      </div>
+    </div>
+
+    <!-- VILLAS PAGE -->
+    <div class="page" id="page-villas">
+      <div class="topbar">
+        <h1>Manage Villas</h1>
+        <div class="topbar-right">
+          <input type="text" class="search-input" placeholder="Search by name or region…" oninput="searchVillas(this.value)">
+          <button class="btn btn-primary" onclick="openAddModal()">+ Add Villa</button>
+        </div>
+      </div>
+      <div class="panel">
+        <table>
+          <thead>
+            <tr>
+              <th>Photo</th>
+              <th>Villa Name</th>
+              <th>Region</th>
+              <th>Area</th>
+              <th>Persons</th>
+              <th>Price/night</th>
+              <th>Features</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="villa-tbody"></tbody>
+        </table>
+        <div class="empty" id="villa-empty" style="display:none">
+          <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+          <p>No villas found</p>
+          <small>Add your first villa using the button above</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- INQUIRIES PAGE -->
+    <div class="page" id="page-inquiries">
+      <div class="topbar">
+        <h1>Customer Inquiries</h1>
+        <button class="btn btn-ghost" onclick="clearInquiries()">Clear All</button>
+      </div>
+      <div id="inq-list"></div>
+      <div class="empty" id="inq-empty">
+        <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        <p>No inquiries yet</p>
+        <small>When customers send inquiries from the site they appear here</small>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ADD / EDIT VILLA MODAL -->
+<div class="modal-bg" id="villa-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeVillaModal()">×</button>
+    <h3 id="modal-title">Add New Villa</h3>
+    <input type="hidden" id="edit-id">
+    <div class="form-grid">
+      <div class="fg"><label>Villa Name *</label><input type="text" id="v-name" placeholder="Villa Eleni"></div>
+      <div class="fg"><label>Region *</label>
+        <select id="v-region">
+          <option value="">Select region</option>
+          <option>Heraklion</option><option>Chania</option><option>Rethymno</option><option>Lasithi</option>
+        </select>
+      </div>
+      <div class="fg"><label>Area / Village</label><input type="text" id="v-area" placeholder="Agia Pelagia"></div>
+      <div class="fg"><label>Max Persons *</label><input type="number" id="v-persons" min="1" max="30" placeholder="8"></div>
+      <div class="fg"><label>Price per Night (€)</label><input type="number" id="v-price" placeholder="220"></div>
+      <div class="fg"><label>Phone</label><input type="tel" id="v-phone" placeholder="+30 699 900 9499" value="+30 699 900 9499"></div>
+      <div class="fg full"><label>Address</label><input type="text" id="v-address" placeholder="Agia Pelagia, Heraklion, Crete"></div>
+      <div class="fg full"><label>Photo URL</label><input type="url" id="v-photo" placeholder="https://... (link from Google Drive, Dropbox, etc)"></div>
+      <div class="fg full"><label>Description</label><textarea id="v-desc" placeholder="Describe the villa — views, features, location, atmosphere..."></textarea></div>
+      <div class="fg full">
+        <label>Features</label>
+        <div class="checkboxes">
+          <label><input type="checkbox" id="v-pool"> 🏊 Pool</label>
+          <label><input type="checkbox" id="v-seaview"> 🌊 Sea View</label>
+          <label><input type="checkbox" id="v-garden"> 🌿 Garden</label>
+          <label><input type="checkbox" id="v-ac"> ❄️ A/C</label>
+          <label><input type="checkbox" id="v-wifi"> 📶 WiFi</label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeVillaModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveVilla()">Save Villa</button>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE CONFIRM -->
+<div class="modal-bg" id="delete-modal">
+  <div class="modal" style="max-width:400px;text-align:center">
+    <h3 style="margin-bottom:8px">Delete Villa?</h3>
+    <p style="color:var(--muted);font-size:14px;margin-bottom:1.5rem">This will remove the villa from the site permanently.</p>
+    <div style="display:flex;gap:10px;justify-content:center">
+      <button class="btn btn-ghost" onclick="document.getElementById('delete-modal').classList.remove('open')">Cancel</button>
+      <button class="btn btn-danger" onclick="confirmDelete()">Yes, Delete</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── CONSTANTS ──
+const ADMIN_PWD = 'Panosadmin1983@';
+const STORAGE_KEY = 'dcv_villas';
+const INQ_KEY = 'dcv_inquiries';
+
+// ── AUTH ──
+function doLogin() {
+  const pwd = document.getElementById('pwd-input').value;
+  if (pwd === ADMIN_PWD) {
+    sessionStorage.setItem('dcv_auth', '1');
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    initApp();
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+    document.getElementById('pwd-input').value = '';
+  }
+}
+function doLogout() {
+  sessionStorage.removeItem('dcv_auth');
+  location.reload();
+}
+if (sessionStorage.getItem('dcv_auth') === '1') {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+}
+
+// ── DATA ──
+function loadVillas() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || getDefaultVillas(); }
+  catch { return getDefaultVillas(); }
+}
+function saveVillas(villas) { localStorage.setItem(STORAGE_KEY, JSON.stringify(villas)); }
+function loadInquiries() { try { return JSON.parse(localStorage.getItem(INQ_KEY)) || []; } catch { return []; } }
+function saveInquiries(inqs) { localStorage.setItem(INQ_KEY, JSON.stringify(inqs)); }
+
+function getDefaultVillas() {
+  return [
+    {id:1,name:"Villa Eleni",region:"Heraklion",area:"Agia Pelagia",persons:8,price:220,pool:true,seaview:true,garden:false,ac:true,wifi:true,photo:"https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&q=70",phone:"+30 699 900 9499",address:"Agia Pelagia, Heraklion",description:"Stunning villa with private pool and panoramic sea views."},
+    {id:2,name:"Villa Zorbas",region:"Chania",area:"Platanias",persons:6,price:180,pool:true,seaview:false,garden:true,ac:true,wifi:true,photo:"https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&q=70",phone:"+30 699 900 9499",address:"Platanias, Chania",description:"Charming villa with lush garden and private pool."},
+    {id:3,name:"Villa Ariadne",region:"Rethymno",area:"Panormo",persons:10,price:310,pool:true,seaview:true,garden:true,ac:true,wifi:true,photo:"https://images.unsplash.com/photo-1602343168117-bb8ffe3e2e9f?w=600&q=70",phone:"+30 699 900 9499",address:"Panormo, Rethymno",description:"Grand villa for large groups with breathtaking views."},
+    {id:4,name:"Villa Daedalus",region:"Lasithi",area:"Elounda",persons:4,price:150,pool:false,seaview:true,garden:false,ac:true,wifi:true,photo:"https://images.unsplash.com/photo-1570197788417-0e82375c9371?w=600&q=70",phone:"+30 699 900 9499",address:"Elounda, Lasithi",description:"Cozy villa near Elounda with amazing sea views."}
+  ];
+}
+
+let villas = loadVillas();
+let deleteId = null;
+let editingId = null;
+
+// ── INIT ──
+function initApp() {
+  document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-GB',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  refreshAll();
+}
+if (sessionStorage.getItem('dcv_auth') === '1') initApp();
+
+function refreshAll() {
+  villas = loadVillas();
+  renderStats();
+  renderVillaTable(villas);
+  renderInquiries();
+  renderRegionBreakdown();
+}
+
+// ── STATS ──
+function renderStats() {
+  const inqs = loadInquiries();
+  document.getElementById('stat-total').textContent = villas.length;
+  document.getElementById('stat-inq').textContent = inqs.length;
+  const badge = document.getElementById('inq-badge');
+  if (inqs.length > 0) { badge.textContent = inqs.length; badge.style.display = 'inline'; }
+}
+
+function renderRegionBreakdown() {
+  const counts = {Heraklion:0,Chania:0,Rethymno:0,Lasithi:0};
+  const colors = {Heraklion:'#1A4A6E',Chania:'#8B4513',Rethymno:'#2E7D52',Lasithi:'#6B3A8B'};
+  villas.forEach(v => { if (counts[v.region]!==undefined) counts[v.region]++; });
+  document.getElementById('region-breakdown').innerHTML = Object.entries(counts).map(([r,c]) => `
+    <div style="text-align:center;padding:1rem;border-radius:8px;border:1px solid #E8E0D0">
+      <div style="font-size:24px;font-weight:500;color:${colors[r]}">${c}</div>
+      <div style="font-size:13px;color:#7A6E60;margin-top:4px">${r}</div>
+    </div>
+  `).join('');
+}
+
+// ── VILLA TABLE ──
+const badgeClass = {Heraklion:'badge-h',Chania:'badge-ch',Rethymno:'badge-r',Lasithi:'badge-l'};
+
+function renderVillaTable(data) {
+  const tbody = document.getElementById('villa-tbody');
+  const empty = document.getElementById('villa-empty');
+  if (data.length === 0) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+  tbody.innerHTML = data.map(v => `
+    <tr>
+      <td><img class="villa-thumb" src="${v.photo || ''}" alt="${v.name}" onerror="this.style.display='none'"></td>
+      <td><strong style="font-size:14px">${v.name}</strong><br><span style="font-size:12px;color:#7A6E60">${v.address || ''}</span></td>
+      <td><span class="badge ${badgeClass[v.region]||''}">${v.region}</span></td>
+      <td style="color:#7A6E60">${v.area || '—'}</td>
+      <td>👥 ${v.persons}</td>
+      <td>${v.price ? '€'+v.price : '—'}</td>
+      <td style="font-size:18px">${v.pool?'🏊':''} ${v.seaview?'🌊':''} ${v.garden?'🌿':''} ${v.wifi?'📶':''}</td>
+      <td>
+        <div class="action-btns">
+          <button class="btn btn-ghost btn-sm" onclick="openEditModal(${v.id})">✏️ Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteVilla(${v.id})">🗑</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function searchVillas(q) {
+  const filtered = q ? villas.filter(v =>
+    v.name.toLowerCase().includes(q.toLowerCase()) ||
+    v.region.toLowerCase().includes(q.toLowerCase()) ||
+    (v.area||'').toLowerCase().includes(q.toLowerCase())
+  ) : villas;
+  renderVillaTable(filtered);
+}
+
+// ── ADD / EDIT MODAL ──
+function openAddModal() {
+  editingId = null;
+  document.getElementById('modal-title').textContent = 'Add New Villa';
+  document.getElementById('edit-id').value = '';
+  clearForm();
+  document.getElementById('villa-modal').classList.add('open');
+}
+
+function openEditModal(id) {
+  const v = villas.find(x => x.id === id);
+  if (!v) return;
+  editingId = id;
+  document.getElementById('modal-title').textContent = 'Edit Villa';
+  document.getElementById('v-name').value = v.name;
+  document.getElementById('v-region').value = v.region;
+  document.getElementById('v-area').value = v.area || '';
+  document.getElementById('v-persons').value = v.persons;
+  document.getElementById('v-price').value = v.price || '';
+  document.getElementById('v-phone').value = v.phone || '';
+  document.getElementById('v-address').value = v.address || '';
+  document.getElementById('v-photo').value = v.photo || '';
+  document.getElementById('v-desc').value = v.description || '';
+  document.getElementById('v-pool').checked = !!v.pool;
+  document.getElementById('v-seaview').checked = !!v.seaview;
+  document.getElementById('v-garden').checked = !!v.garden;
+  document.getElementById('v-ac').checked = !!v.ac;
+  document.getElementById('v-wifi').checked = !!v.wifi;
+  document.getElementById('villa-modal').classList.add('open');
+}
+
+function closeVillaModal() { document.getElementById('villa-modal').classList.remove('open'); }
+
+function clearForm() {
+  ['v-name','v-area','v-persons','v-price','v-address','v-photo','v-desc'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('v-region').value = '';
+  document.getElementById('v-phone').value = '+30 699 900 9499';
+  ['v-pool','v-seaview','v-garden','v-ac','v-wifi'].forEach(id => document.getElementById(id).checked = false);
+}
+
+function saveVilla() {
+  const name = document.getElementById('v-name').value.trim();
+  const region = document.getElementById('v-region').value;
+  const persons = parseInt(document.getElementById('v-persons').value);
+  if (!name || !region || !persons) { showToast('Please fill in Name, Region and Persons.','error'); return; }
+  const villa = {
+    id: editingId || Date.now(),
+    name, region,
+    area: document.getElementById('v-area').value.trim(),
+    persons,
+    price: parseInt(document.getElementById('v-price').value) || null,
+    phone: document.getElementById('v-phone').value.trim(),
+    address: document.getElementById('v-address').value.trim(),
+    photo: document.getElementById('v-photo').value.trim(),
+    description: document.getElementById('v-desc').value.trim(),
+    pool: document.getElementById('v-pool').checked,
+    seaview: document.getElementById('v-seaview').checked,
+    garden: document.getElementById('v-garden').checked,
+    ac: document.getElementById('v-ac').checked,
+    wifi: document.getElementById('v-wifi').checked,
+  };
+  if (editingId) {
+    const idx = villas.findIndex(v => v.id === editingId);
+    if (idx > -1) villas[idx] = villa;
+    showToast('Villa updated successfully!','success');
+  } else {
+    villas.push(villa);
+    showToast('Villa added successfully!','success');
+  }
+  saveVillas(villas);
+  closeVillaModal();
+  refreshAll();
+  exportVillasJSON();
+}
+
+// ── DELETE ──
+function deleteVilla(id) { deleteId = id; document.getElementById('delete-modal').classList.add('open'); }
+function confirmDelete() {
+  villas = villas.filter(v => v.id !== deleteId);
+  saveVillas(villas);
+  document.getElementById('delete-modal').classList.remove('open');
+  showToast('Villa deleted.','success');
+  refreshAll();
+  exportVillasJSON();
+}
+
+// ── INQUIRIES ──
+function renderInquiries() {
+  const inqs = loadInquiries();
+  const list = document.getElementById('inq-list');
+  const empty = document.getElementById('inq-empty');
+  if (inqs.length === 0) { list.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+  list.innerHTML = inqs.slice().reverse().map(inq => `
+    <div class="inq-card">
+      <div class="inq-header">
+        <div class="inq-name">${inq.name}</div>
+        <div class="inq-date">${new Date(inq.date).toLocaleDateString('en-GB')}</div>
+      </div>
+      <div class="inq-villa">📍 ${inq.villa}</div>
+      <div class="inq-meta">
+        <span>📧 ${inq.email}</span>
+        <span>📞 ${inq.phone}</span>
+        <span>👥 ${inq.guests}</span>
+        ${inq.checkin ? '<span>📅 '+inq.checkin+' → '+inq.checkout+'</span>' : ''}
+      </div>
+      ${inq.message ? '<div class="inq-msg">"'+inq.message+'"</div>' : ''}
+      <div class="inq-actions">
+        <a href="mailto:${inq.email}?subject=Re: Villa Inquiry ${inq.villa}" class="btn btn-primary btn-sm" style="text-decoration:none">📧 Reply by Email</a>
+        <a href="tel:${inq.phone}" class="btn btn-ghost btn-sm" style="text-decoration:none">📞 Call</a>
+        <a href="https://wa.me/${inq.phone.replace(/[^0-9]/g,'')}" target="_blank" class="btn btn-ghost btn-sm" style="text-decoration:none">💬 WhatsApp</a>
+      </div>
+    </div>
+  `).join('');
+}
+function clearInquiries() { if(confirm('Clear all inquiries?')) { saveInquiries([]); refreshAll(); } }
+
+// ── EXPORT ──
+function exportVillasJSON() {
+  const json = JSON.stringify(villas, null, 2);
+  const blob = new Blob([json], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'villas.json'; a.click();
+  URL.revokeObjectURL(url);
+}
+function exportVillas() { exportVillasJSON(); showToast('villas.json downloaded! Upload it to your Vercel public folder.','success'); }
+
+// ── NAVIGATION ──
+function showPage(page, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.s-item').forEach(i => i.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  if(el) el.classList.add('active');
+}
+
+// ── TOAST ──
+function showToast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  setTimeout(() => t.className = 'toast', 3000);
+}
+</script>
+</body>
+</html>
