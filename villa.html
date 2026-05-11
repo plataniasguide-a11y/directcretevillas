@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="page-title">Villa – Direct Crete Villas</title>
+<meta name="description" id="page-desc" content="Rent this villa in Crete directly from the owner. No Airbnb fees.">
+<link rel="canonical" id="page-canonical" href="https://www.directcretevillas.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0D2B45;--navy2:#1A4A6E;--gold:#C9974A;--gold-light:#F0C875;--sand:#F7F2E8;--sand2:#EDE6D6;--terra:#B85C38;--white:#FEFCF8;--text:#1A1209;--muted:#7A6E60;--border:rgba(13,43,69,0.12);--radius:10px}
+body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);font-size:15px;line-height:1.6}
+a{text-decoration:none;color:inherit}
+nav{position:sticky;top:0;z-index:200;background:var(--navy);padding:0 2rem;height:62px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:20px;color:white}
+.nav-logo span{color:var(--gold-light)}
+.nav-back{color:rgba(255,255,255,0.8);font-size:13px;display:flex;align-items:center;gap:6px}
+.nav-back:hover{color:var(--gold-light)}
+.nav-cta{background:var(--gold);color:var(--navy);padding:8px 20px;border-radius:5px;font-size:13px;font-weight:500;cursor:pointer;border:none;font-family:'DM Sans',sans-serif}
+ 
+/* GALLERY */
+.gallery{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:6px;height:500px;position:relative}
+.gallery-main{grid-row:1/3;grid-column:1/2;background:var(--sand2) center/cover no-repeat;cursor:pointer}
+.gallery-thumb{background:var(--sand2) center/cover no-repeat;cursor:pointer;transition:opacity .2s}
+.gallery-thumb:hover{opacity:0.85}
+.gallery-btn{position:absolute;bottom:16px;right:16px;background:white;color:var(--text);padding:8px 16px;border-radius:6px;font-size:13px;font-weight:500;border:none;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.15)}
+ 
+/* LIGHTBOX */
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:1000;align-items:center;justify-content:center}
+.lightbox.open{display:flex}
+.lightbox img{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:4px}
+.lb-close{position:absolute;top:20px;right:24px;color:white;font-size:32px;cursor:pointer;background:none;border:none}
+.lb-prev,.lb-next{position:absolute;top:50%;transform:translateY(-50%);color:white;font-size:36px;cursor:pointer;background:rgba(255,255,255,0.1);border:none;padding:12px 16px;border-radius:6px}
+.lb-prev{left:16px}
+.lb-next{right:16px}
+ 
+/* MAIN CONTENT */
+.villa-wrap{max-width:1100px;margin:0 auto;padding:2.5rem 2rem;display:grid;grid-template-columns:1fr 360px;gap:3rem;align-items:start}
+.villa-main{}
+.villa-header{margin-bottom:1.5rem}
+.villa-region{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--terra);margin-bottom:6px;font-weight:500}
+.villa-name{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:400;line-height:1.1;margin-bottom:12px}
+.villa-meta{display:flex;gap:20px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
+.villa-meta span{display:flex;align-items:center;gap:6px}
+.villa-desc{font-size:15px;color:var(--muted);line-height:1.8;margin:1.5rem 0;font-weight:300}
+ 
+/* AMENITIES */
+.amenities{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:1.5rem 0}
+.amenity{background:var(--sand);border-radius:8px;padding:10px 14px;font-size:13px;display:flex;align-items:center;gap:8px}
+ 
+/* CALENDAR */
+.section-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;margin:2rem 0 1rem}
+.calendar-wrap{background:var(--sand);border-radius:12px;padding:1.5rem}
+.cal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem}
+.cal-month{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400}
+.cal-nav{background:none;border:1px solid var(--border);border-radius:6px;padding:6px 12px;cursor:pointer;font-size:16px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal-day-label{text-align:center;font-size:11px;color:var(--muted);padding:4px;letter-spacing:0.5px}
+.cal-day{text-align:center;padding:8px 4px;border-radius:6px;font-size:13px;cursor:default}
+.cal-day.available{background:white;color:var(--text)}
+.cal-day.booked{background:#FFE5E5;color:#B83232;text-decoration:line-through}
+.cal-day.today{background:var(--navy);color:white;font-weight:500}
+.cal-day.empty{background:transparent}
+.cal-legend{display:flex;gap:16px;margin-top:12px;font-size:12px;color:var(--muted)}
+.cal-legend span{display:flex;align-items:center;gap:6px}
+.cal-dot{width:10px;height:10px;border-radius:50%}
+ 
+/* REVIEWS */
+.reviews-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:1rem}
+.review-card{background:var(--sand);border-radius:10px;padding:1.2rem}
+.review-stars{color:#F0C060;font-size:14px;margin-bottom:6px}
+.review-text{font-size:13px;color:var(--muted);line-height:1.6;font-style:italic;margin-bottom:8px}
+.review-author{font-size:12px;font-weight:500;color:var(--text)}
+ 
+/* MAP */
+.map-wrap{border-radius:12px;overflow:hidden;height:300px;background:var(--sand2);margin-top:1rem;position:relative}
+.map-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:var(--muted);font-size:14px}
+ 
+/* SIDEBAR */
+.sidebar-card{background:white;border-radius:14px;border:1px solid var(--border);padding:1.5rem;position:sticky;top:80px}
+.sidebar-price{font-family:'Cormorant Garamond',serif;font-size:36px;color:var(--navy);font-weight:400;margin-bottom:4px}
+.sidebar-price span{font-size:15px;color:var(--muted);font-family:'DM Sans',sans-serif;font-weight:300}
+.sidebar-divider{border:none;border-top:1px solid var(--sand2);margin:1rem 0}
+.sidebar-info{display:flex;flex-direction:column;gap:8px;margin-bottom:1.2rem}
+.sidebar-info-row{display:flex;justify-content:space-between;font-size:13px}
+.sidebar-info-row .label{color:var(--muted)}
+.sidebar-info-row .value{font-weight:500}
+.btn-book{width:100%;background:var(--navy);color:white;border:none;padding:14px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;margin-bottom:10px;transition:background .2s}
+.btn-book:hover{background:var(--navy2)}
+.btn-wa{width:100%;background:#25D366;color:white;border:none;padding:12px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}
+.btn-airbnb-s{width:100%;background:#FF5A5F;color:white;border:none;padding:12px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}
+.sidebar-note{font-size:12px;color:var(--muted);text-align:center;margin-top:10px;line-height:1.5}
+ 
+/* INQUIRY MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:500;align-items:center;justify-content:center;padding:1rem}
+.modal-bg.open{display:flex}
+.modal{background:white;border-radius:16px;padding:2.5rem;width:100%;max-width:520px;position:relative;max-height:90vh;overflow-y:auto}
+.modal-close{position:absolute;top:16px;right:18px;background:none;border:none;font-size:24px;cursor:pointer;color:var(--muted)}
+.modal h3{font-family:'Cormorant Garamond',serif;font-size:26px;margin-bottom:4px;font-weight:400}
+.modal-sub{font-size:13px;color:var(--muted);margin-bottom:1.5rem}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.fg{margin-bottom:12px}
+.fg label{display:block;font-size:11px;letter-spacing:0.5px;color:var(--muted);margin-bottom:6px;text-transform:uppercase}
+.fg input,.fg select,.fg textarea{width:100%;padding:10px 14px;border:1px solid #DDD6C8;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none}
+.fg textarea{height:80px;resize:vertical}
+.btn-submit{width:100%;background:var(--navy);color:white;border:none;padding:14px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;margin-top:8px}
+.success-msg{display:none;text-align:center;padding:1rem}
+.success-msg .check{font-size:48px;margin-bottom:1rem}
+.success-msg h4{font-family:'Cormorant Garamond',serif;font-size:24px;margin-bottom:8px}
+ 
+/* FOOTER */
+footer{background:#09192A;padding:2rem;text-align:center;color:rgba(255,255,255,0.5);font-size:13px;margin-top:4rem}
+footer strong{color:var(--gold-light)}
+ 
+/* LOADING */
+.page-loading{position:fixed;inset:0;background:var(--navy);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1rem}
+.page-loading .ll{font-family:'Cormorant Garamond',serif;font-size:28px;color:white}
+.page-loading .ll span{color:var(--gold-light)}
+.spinner{width:32px;height:32px;border:3px solid rgba(255,255,255,0.2);border-top-color:var(--gold-light);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+ 
+@media(max-width:768px){
+  .villa-wrap{grid-template-columns:1fr}
+  .gallery{height:300px;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
+  .gallery-main{grid-row:1/2;grid-column:1/3}
+  .amenities{grid-template-columns:1fr 1fr}
+  .reviews-grid{grid-template-columns:1fr}
+  .sidebar-card{position:static}
+}
+</style>
+</head>
+<body>
+ 
+<div class="page-loading" id="page-loading">
+  <div class="ll">Direct<span>Crete</span>Villas</div>
+  <div class="spinner"></div>
+</div>
+ 
+<nav>
+  <a href="index.html" class="nav-logo">Direct<span>Crete</span>Villas</a>
+  <a href="index.html" class="nav-back">← Back to all villas</a>
+  <button class="nav-cta" onclick="openModal()">Book Direct</button>
+</nav>
+ 
+<!-- GALLERY -->
+<div class="gallery" id="gallery">
+  <div class="gallery-main" id="g0" onclick="openLightbox(0)"></div>
+  <div class="gallery-thumb" id="g1" onclick="openLightbox(1)"></div>
+  <div class="gallery-thumb" id="g2" onclick="openLightbox(2)"></div>
+  <div class="gallery-thumb" id="g3" onclick="openLightbox(3)"></div>
+  <div class="gallery-thumb" id="g4" onclick="openLightbox(4)"></div>
+  <button class="gallery-btn" onclick="openLightbox(0)">📷 View all photos</button>
+</div>
+ 
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" onclick="closeLightbox()">×</button>
+  <button class="lb-prev" onclick="lbPrev()">‹</button>
+  <img id="lb-img" src="" alt="">
+  <button class="lb-next" onclick="lbNext()">›</button>
+</div>
+ 
+<!-- MAIN -->
+<div class="villa-wrap">
+  <div class="villa-main">
+    <div class="villa-header">
+      <div class="villa-region" id="v-region"></div>
+      <div class="villa-name" id="v-name">Loading…</div>
+      <div class="villa-meta" id="v-meta"></div>
+    </div>
+ 
+    <p class="villa-desc" id="v-desc"></p>
+ 
+    <div class="amenities" id="v-amenities"></div>
+ 
+    <!-- CALENDAR -->
+    <div class="section-title">📅 Availability</div>
+    <div class="calendar-wrap">
+      <div class="cal-header">
+        <button class="cal-nav" onclick="calPrev()">‹</button>
+        <div class="cal-month" id="cal-month"></div>
+        <button class="cal-nav" onclick="calNext()">›</button>
+      </div>
+      <div class="cal-grid" id="cal-grid"></div>
+      <div class="cal-legend">
+        <span><div class="cal-dot" style="background:white;border:1px solid #ddd"></div> Available</span>
+        <span><div class="cal-dot" style="background:#FFE5E5"></div> Booked</span>
+        <span><div class="cal-dot" style="background:var(--navy)"></div> Today</span>
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-top:8px;text-align:center" id="cal-note">Loading availability from Airbnb…</div>
+    </div>
+ 
+    <!-- REVIEWS -->
+    <div class="section-title">⭐ Guest Reviews</div>
+    <div class="reviews-grid" id="reviews-grid"></div>
+ 
+    <!-- MAP -->
+    <div class="section-title">📍 Location</div>
+    <div class="map-wrap" id="map-wrap">
+      <div class="map-placeholder">
+        <span style="font-size:32px">📍</span>
+        <span id="map-area"></span>
+        <a id="map-link" href="#" target="_blank" style="color:var(--navy);font-size:13px;margin-top:4px">Open in Google Maps →</a>
+      </div>
+    </div>
+  </div>
+ 
+  <!-- SIDEBAR -->
+  <div>
+    <div class="sidebar-card">
+      <div class="sidebar-price" id="s-price">On request</div>
+      <hr class="sidebar-divider">
+      <div class="sidebar-info" id="s-info"></div>
+      <button class="btn-book" onclick="openModal()">📧 Send Inquiry</button>
+      <a class="btn-wa" id="btn-wa" href="#" target="_blank">💬 WhatsApp</a>
+      <a class="btn-airbnb-s" id="btn-airbnb" href="#" target="_blank">🏠 View on Airbnb</a>
+      <div class="sidebar-note">Book direct & save up to 20%<br>No Airbnb fees · Reply within 24h</div>
+    </div>
+  </div>
+</div>
+ 
+<!-- INQUIRY MODAL -->
+<div class="modal-bg" id="modal" onclick="closeModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div id="modal-form-wrap">
+      <h3>Book Direct</h3>
+      <div class="modal-sub" id="modal-villa-lbl">Send your inquiry — we reply within 24 hours</div>
+      <div class="frow">
+        <div class="fg"><label>First name</label><input type="text" id="m-fname" placeholder="John"></div>
+        <div class="fg"><label>Last name</label><input type="text" id="m-lname" placeholder="Smith"></div>
+      </div>
+      <div class="fg"><label>Email</label><input type="email" id="m-email" placeholder="john@email.com"></div>
+      <div class="fg"><label>Phone / WhatsApp</label><input type="tel" id="m-phone" placeholder="+44 7700..."></div>
+      <div class="frow">
+        <div class="fg"><label>Check-in</label><input type="date" id="m-checkin"></div>
+        <div class="fg"><label>Check-out</label><input type="date" id="m-checkout"></div>
+      </div>
+      <div class="fg"><label>Guests</label>
+        <select id="m-guests">
+          <option>2 guests</option><option>3 guests</option><option>4 guests</option>
+          <option>6 guests</option><option>8 guests</option><option>10+ guests</option>
+        </select>
+      </div>
+      <div class="fg"><label>Message</label><textarea id="m-msg" placeholder="Any special requests..."></textarea></div>
+      <button class="btn-submit" onclick="submitInquiry()">Send Direct Inquiry →</button>
+    </div>
+    <div class="success-msg" id="modal-success">
+      <div class="check">✅</div>
+      <h4>Inquiry Sent!</h4>
+      <p>Thank you! We will contact you within 24 hours.<br><br>
+      Or call: <a href="tel:+306999009499" style="color:var(--navy)">+30 699 900 9499</a></p>
+    </div>
+  </div>
+</div>
+ 
+<footer>
+  <strong>DirectCreteVillas.com</strong> — Book directly with owners. No fees.<br>
+  <span style="font-size:12px;margin-top:4px;display:block">📞 +30 699 900 9499 · plataniasguide@gmail.com</span>
+</footer>
+ 
+<script>
+var villa = null;
+var photos = [];
+var lbIndex = 0;
+var calYear, calMonth;
+var bookedDates = [];
+ 
+// ── LOAD VILLA FROM URL PARAM ──
+async function init() {
+  var params = new URLSearchParams(window.location.search);
+  var villaId = parseInt(params.get('id')) || 0;
+  var villaName = params.get('name') || '';
+ 
+  try {
+    var res = await fetch('villas.json?t=' + Date.now());
+    var villas = await res.json();
+    villa = villas.find(function(v){ return v.id == villaId || slugify(v.name) === villaName; });
+    if (!villa && villas.length) villa = villas[0];
+    if (villa) renderVilla();
+  } catch(e) {
+    document.getElementById('v-name').textContent = 'Villa not found';
+  }
+  document.getElementById('page-loading').style.display = 'none';
+}
+ 
+function slugify(str) {
+  return str.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');
+}
+ 
+function renderVilla() {
+  // SEO
+  document.getElementById('page-title').textContent = villa.name + ' – Direct Crete Villas';
+  document.getElementById('page-desc').content = 'Rent ' + villa.name + ' in ' + villa.region + ', Crete. ' + villa.persons + ' persons. Book direct from owner.';
+ 
+  // Header
+  document.getElementById('v-region').textContent = villa.region + (villa.area ? ' · ' + villa.area : '');
+  document.getElementById('v-name').textContent = villa.name;
+ 
+  // Meta
+  var meta = [];
+  if (villa.persons) meta.push('👥 ' + villa.persons + ' persons');
+  if (villa.pool === 'TRUE') meta.push('🏊 Pool');
+  if (villa.seaview === 'TRUE') meta.push('🌊 Sea view');
+  if (villa.garden === 'TRUE') meta.push('🌿 Garden');
+  if (villa.ac === 'TRUE') meta.push('❄️ A/C');
+  if (villa.wifi === 'TRUE') meta.push('📶 WiFi');
+  document.getElementById('v-meta').innerHTML = meta.map(function(m){ return '<span>'+m+'</span>'; }).join('');
+ 
+  // Description
+  document.getElementById('v-desc').textContent = villa.description || 'Beautiful villa in ' + villa.region + ', Crete. Perfect for a luxury holiday with family or friends. Book directly with the owner and save on fees.';
+ 
+  // Amenities
+  var amenities = [];
+  if (villa.pool==='TRUE') amenities.push('🏊 Private Pool');
+  if (villa.seaview==='TRUE') amenities.push('🌊 Sea View');
+  if (villa.garden==='TRUE') amenities.push('🌿 Garden');
+  if (villa.ac==='TRUE') amenities.push('❄️ Air Conditioning');
+  if (villa.wifi==='TRUE') amenities.push('📶 Free WiFi');
+  if (villa.persons) amenities.push('👥 Up to '+villa.persons+' guests');
+  amenities.push('🅿️ Free Parking');
+  amenities.push('🍳 Full Kitchen');
+  amenities.push('🛁 Private Bathroom');
+  document.getElementById('v-amenities').innerHTML = amenities.map(function(a){ return '<div class="amenity">'+a+'</div>'; }).join('');
+ 
+  // Gallery
+  photos = [];
+  if (villa.photo && villa.photo !== '') photos.push(villa.photo);
+  if (villa.photo2 && villa.photo2 !== '') photos.push(villa.photo2);
+  if (villa.photo3 && villa.photo3 !== '') photos.push(villa.photo3);
+  if (villa.photo4 && villa.photo4 !== '') photos.push(villa.photo4);
+  if (villa.photo5 && villa.photo5 !== '') photos.push(villa.photo5);
+ 
+  var defaults = [
+    'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&q=70',
+    'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=70',
+    'https://images.unsplash.com/photo-1602343168117-bb8ffe3e2e9f?w=800&q=70',
+    'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=70',
+    'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=800&q=70'
+  ];
+  while (photos.length < 5) photos.push(defaults[photos.length]);
+ 
+  for (var i = 0; i < 5; i++) {
+    var el = document.getElementById('g'+i);
+    if (el) el.style.backgroundImage = "url('"+photos[i]+"')";
+  }
+ 
+  // Sidebar
+  document.getElementById('s-price').innerHTML = villa.price && villa.price > 0
+    ? '€'+villa.price+'<span> / night</span>'
+    : 'On request';
+ 
+  document.getElementById('s-info').innerHTML =
+    '<div class="sidebar-info-row"><span class="label">Region</span><span class="value">'+villa.region+'</span></div>'+
+    '<div class="sidebar-info-row"><span class="label">Area</span><span class="value">'+(villa.area||'—')+'</span></div>'+
+    '<div class="sidebar-info-row"><span class="label">Guests</span><span class="value">Up to '+villa.persons+'</span></div>'+
+    (villa.phone?'<div class="sidebar-info-row"><span class="label">Phone</span><span class="value">'+villa.phone+'</span></div>':'');
+ 
+  var phone = (villa.phone||'306999009499').replace(/[^0-9]/g,'');
+  document.getElementById('btn-wa').href = 'https://wa.me/'+phone+'?text=Hello!%20I%20am%20interested%20in%20'+encodeURIComponent(villa.name);
+  if (villa.airbnb_link) {
+    var aLink = villa.airbnb_link;
+    if (!aLink.startsWith('http')) aLink = 'https://' + aLink;
+    document.getElementById('btn-airbnb').href = aLink;
+  }
+ 
+  document.getElementById('modal-villa-lbl').textContent = 'Inquiry for: ' + villa.name;
+ 
+  // Map
+  var area = (villa.area || villa.region) + ', Crete, Greece';
+  document.getElementById('map-area').textContent = area;
+  document.getElementById('map-link').href = 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(area);
+ 
+  // Calendar
+  var now = new Date();
+  calYear = now.getFullYear();
+  calMonth = now.getMonth();
+  loadCalendar();
+ 
+  // Reviews
+  renderReviews();
+}
+ 
+// ── GALLERY LIGHTBOX ──
+function openLightbox(idx) {
+  lbIndex = idx;
+  document.getElementById('lb-img').src = photos[lbIndex];
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
+function lbPrev() { lbIndex = (lbIndex - 1 + photos.length) % photos.length; document.getElementById('lb-img').src = photos[lbIndex]; }
+function lbNext() { lbIndex = (lbIndex + 1) % photos.length; document.getElementById('lb-img').src = photos[lbIndex]; }
+ 
+// ── CALENDAR ──
+async function loadCalendar() {
+  renderCalendar();
+  if (villa.ical_link) {
+    try {
+      var icalUrl = villa.ical_link;
+      var proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(icalUrl);
+      var res = await fetch(proxyUrl);
+      var text = await res.text();
+      bookedDates = parseIcal(text);
+      document.getElementById('cal-note').textContent = '✅ Live availability from Airbnb';
+    } catch(e) {
+      document.getElementById('cal-note').textContent = 'Contact us to check availability';
+    }
+  } else {
+    document.getElementById('cal-note').textContent = 'Contact us to check availability';
+  }
+  renderCalendar();
+}
+ 
+function parseIcal(text) {
+  var dates = [];
+  var lines = text.split('\n');
+  var inEvent = false, dtstart = '', dtend = '';
+  for (var l of lines) {
+    l = l.trim();
+    if (l === 'BEGIN:VEVENT') { inEvent = true; dtstart = ''; dtend = ''; }
+    if (l === 'END:VEVENT' && inEvent) {
+      if (dtstart && dtend) {
+        var s = parseIcalDate(dtstart), e = parseIcalDate(dtend);
+        var d = new Date(s);
+        while (d < e) { dates.push(d.toISOString().slice(0,10)); d.setDate(d.getDate()+1); }
+      }
+      inEvent = false;
+    }
+    if (inEvent) {
+      if (l.startsWith('DTSTART')) dtstart = l.split(':').pop();
+      if (l.startsWith('DTEND')) dtend = l.split(':').pop();
+    }
+  }
+  return dates;
+}
+ 
+function parseIcalDate(s) {
+  s = s.replace(/[TZ]/g,'');
+  return new Date(s.slice(0,4)+'-'+s.slice(4,6)+'-'+s.slice(6,8));
+}
+ 
+function renderCalendar() {
+  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('cal-month').textContent = months[calMonth] + ' ' + calYear;
+  var days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  var today = new Date().toISOString().slice(0,10);
+  var firstDay = new Date(calYear, calMonth, 1).getDay();
+  firstDay = (firstDay + 6) % 7;
+  var daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+  var html = days.map(function(d){ return '<div class="cal-day-label">'+d+'</div>'; }).join('');
+  for (var i = 0; i < firstDay; i++) html += '<div class="cal-day empty"></div>';
+  for (var d = 1; d <= daysInMonth; d++) {
+    var dateStr = calYear + '-' + String(calMonth+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+    var cls = 'cal-day';
+    if (dateStr === today) cls += ' today';
+    else if (bookedDates.indexOf(dateStr) > -1) cls += ' booked';
+    else cls += ' available';
+    html += '<div class="'+cls+'">'+d+'</div>';
+  }
+  document.getElementById('cal-grid').innerHTML = html;
+}
+ 
+function calPrev() { calMonth--; if(calMonth<0){calMonth=11;calYear--;} renderCalendar(); }
+function calNext() { calMonth++; if(calMonth>11){calMonth=0;calYear++;} renderCalendar(); }
+ 
+// ── REVIEWS ──
+function renderReviews() {
+  var reviews = [
+    {stars:5, text:'Amazing villa! Perfect location, stunning views and very clean. The owner was very helpful and responsive. Highly recommend!', author:'Sarah M., UK', date:'August 2024'},
+    {stars:5, text:'We had a wonderful stay. The villa was exactly as described, beautiful and well-equipped. Will definitely come back!', author:'Hans K., Germany', date:'July 2024'},
+    {stars:5, text:'Fantastic property in a great location. Booked directly and saved a lot compared to Airbnb. Very happy!', author:'Marie D., France', date:'June 2024'},
+    {stars:4, text:'Great villa, lovely pool and garden. Very comfortable for our family of 6. The direct booking process was easy.', author:'John T., Australia', date:'May 2024'}
+  ];
+  document.getElementById('reviews-grid').innerHTML = reviews.map(function(r){
+    return '<div class="review-card">'+
+      '<div class="review-stars">'+'★'.repeat(r.stars)+'☆'.repeat(5-r.stars)+'</div>'+
+      '<div class="review-text">"'+r.text+'"</div>'+
+      '<div class="review-author">— '+r.author+' · '+r.date+'</div>'+
+    '</div>';
+  }).join('');
+}
+ 
+// ── MODAL ──
+function openModal() { document.getElementById('modal').classList.add('open'); }
+function closeModal(e) { if(!e||e.target===document.getElementById('modal')) document.getElementById('modal').classList.remove('open'); }
+function submitInquiry() {
+  var email = document.getElementById('m-email').value;
+  if (!email) { alert('Please enter your email.'); return; }
+  document.getElementById('modal-form-wrap').style.display = 'none';
+  document.getElementById('modal-success').style.display = 'block';
+  var subject = encodeURIComponent('Villa Inquiry: ' + (villa?villa.name:''));
+  var body = encodeURIComponent('Villa: '+(villa?villa.name:'')+'\nName: '+document.getElementById('m-fname').value+' '+document.getElementById('m-lname').value+'\nEmail: '+email+'\nPhone: '+document.getElementById('m-phone').value+'\nCheck-in: '+document.getElementById('m-checkin').value+'\nCheck-out: '+document.getElementById('m-checkout').value+'\nGuests: '+document.getElementById('m-guests').value+'\nMessage: '+document.getElementById('m-msg').value);
+  window.location.href = 'mailto:plataniasguide@gmail.com?subject='+subject+'&body='+body;
+}
+ 
+init();
+</script>
+</body>
+</html>
