@@ -311,9 +311,8 @@ function parseCSV(text) {
  
 async function loadVillas() {
   try {
-    var res = await fetch(SHEET_CSV + '&t=' + Date.now());
-    var text = await res.text();
-    allVillas = parseCSV(text);
+    var res = await fetch('villas.json?t=' + Date.now());
+    allVillas = await res.json();
     document.getElementById('cnt-villas').textContent = allVillas.length;
     renderVillas();
   } catch(e) {
